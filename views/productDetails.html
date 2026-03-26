@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Product Details</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<nav>
+<h2>My Store</h2>
+<a href="/">Home</a>
+<a href="/products">Products</a>
+</nav>
+
+<div class="container">
+<h1>Product Details</h1>
+
+<div class="card">
+<h3 id="name"></h3>
+<p id="price"></p>
+<p>Description: This is a great product.</p>
+</div>
+
+<a href="/products">Back</a>
+
+</div>
+
+<script>
+const id = window.location.pathname.split("/").pop();
+
+let product = {};
+
+if(id == "1"){
+product = {name:"Product 1", price:10};
+}
+else if(id == "2"){
+product = {name:"Product 2", price:20};
+}
+else{
+product = {name:"Product 3", price:30};
+}
+
+document.getElementById("name").innerText = product.name;
+document.getElementById("price").innerText = "Price: $" + product.price;
+</script>
+
+</body>
+</html>
