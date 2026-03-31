@@ -16,41 +16,47 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // --- DATABASE CONNECTION ---
-mongoose.connect("mongodb://mrhaider346_db_user:hadiking09@ac-a5788v0-shard-00-00.kd5ih58.mongodb.net:27017,ac-a5788v0-shard-00-01.kd5ih58.mongodb.net:27017,ac-a5788v0-shard-00-02.kd5ih58.mongodb.net:27017/?ssl=true&replicaSet=atlas-hll5vl-shard-0&authSource=admin&appName=Cluster0")
-.then(()=> console.log("DB Connected"))
-.catch(err=> console.log("DB Error: ", err));
+const dbURI = "mongodb://mrhaider346_db_user:hadiking09@ac-a5788v0-shard-00-00.kd5ih58.mongodb.net:27017,ac-a5788v0-shard-00-01.kd5ih58.mongodb.net:27017,ac-a5788v0-shard-00-02.kd5ih58.mongodb.net:27017/?ssl=true&replicaSet=atlas-hll5vl-shard-0&authSource=admin&appName=Cluster0";
+mongoose.connect(dbURI)
+    .then(() => console.log(" Connected to MongoDB Atlas (Cloud)!"))
+    .catch(err => {
+        console.log(" DB Connection Error Details: ", err.message);
+    });
 
 // --- SCHEMA & MODEL ---
 const productSchema = new mongoose.Schema({
-    name: String,
-    price: Number,
-    image: String
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
+    image: { type: String, required: true }
 });
 const Product = mongoose.model("Product", productSchema);
+
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true }
 });
 const User = mongoose.model("User", userSchema);
+
+// --- AUTH MIDDLEWARE ---
 const auth = (req, res, next) => {
     const token = req.cookies.token;
 
     if (!token) {
-        return res.redirect("/signup");
+        return res.redirect("/login");
     }
 
     try {
         const verified = jwt.verify(token, 'mysecret');
-        req.user = verified; 
+        req.user = verified;
         next();
     } catch (err) {
+        res.clearCookie("token");
         res.redirect("/login");
     }
 };
-// ==========================================
+
 // --- 1. ADMIN PANEL (Password: hadi09) ---
-// ==========================================
 app.get("/admin", async (req, res) => {
     const adminPass = req.query.pass;
     if (adminPass === "hadi09") {
@@ -77,9 +83,7 @@ app.get("/admin", async (req, res) => {
     }
 });
 
-// ==========================================
 // --- 2. PRODUCT ROUTES (Gallery & Details) ---
-// ==========================================
 app.get("/products", auth, async (req, res) => {
     try {
         let searchQuery = {};
