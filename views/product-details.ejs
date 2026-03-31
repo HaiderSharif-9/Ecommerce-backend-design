@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= product.name %> | Brand</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: sans-serif; background-color: #f7f8f9; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        .header { background: white; padding: 15px 5%; border-bottom: 1px solid #e3e8ee; display: flex; justify-content: space-between; align-items: center; }
+        .brand { color: #0d6efd; font-size: 22px; font-weight: bold; text-decoration: none; }
+
+        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; flex: 1; }
+        
+        /* 1. BARI IMAGE UPAR */
+        .hero-image-section { background: white; padding: 40px; border-radius: 12px; border: 1px solid #e3e8ee; text-align: center; margin-bottom: 25px; }
+        .main-img { width: 100%; max-width: 500px; height: auto; object-fit: contain; border-radius: 8px; }
+
+        /* 2. DETAILS NEECHE */
+        .info-section { background: white; padding: 30px; border-radius: 12px; border: 1px solid #e3e8ee; }
+        .info-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
+        .product-title { font-size: 28px; color: #1c1c1c; margin: 0; }
+        .product-price { font-size: 32px; color: #fa3434; font-weight: bold; }
+
+        .description-box { color: #505050; line-height: 1.8; font-size: 16px; }
+        .spec-item { margin-bottom: 10px; display: flex; gap: 10px; }
+        .label { font-weight: bold; color: #1c1c1c; min-width: 120px; }
+
+        .action-btns { margin-top: 30px; display: flex; gap: 15px; }
+        .btn-back { padding: 12px 25px; background: #0d6efd; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; }
+        
+        /* Footer matching others */
+        .footer { background: white; border-top: 1px solid #e3e8ee; padding: 30px; text-align: center; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="/products" class="brand"><i class="fa-solid fa-shopping-bag"></i> Brand</a>
+        <a href="/products" style="text-decoration: none; color: #8b96a5;">Return to Gallery</a>
+    </header>
+
+    <div class="container">
+        <div class="hero-image-section">
+            <img src="<%= product.image %>" class="main-img" alt="Product Image">
+        </div>
+
+        <div class="info-section">
+            <div class="info-header">
+                <h1 class="product-title"><%= product.name %></h1>
+                <div class="product-price">$<%= product.price %></div>
+            </div>
+
+            <div class="description-box">
+                <h3>Product Specifications</h3>
+                <div class="spec-item"><span class="label">Condition:</span> <span>New / Genuine</span></div>
+                <div class="spec-item"><span class="label">Availability:</span> <span style="color: #28a745;">In Stock</span></div>
+                <div class="spec-item"><span class="label">Warranty:</span> <span>1 Year Local Warranty</span></div>
+                
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+                
+                <h3>Description</h3>
+                <p>This <%= product.name %> is crafted for high performance and style. Whether you are using it for work or leisure, it ensures the best experience. Verified and trusted by thousands of customers globally.</p>
+            </div>
+
+            <div class="action-btns">
+                <a href="/products" class="btn-back">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 Brand Store | Developed by <b>Haider</b></p>
+    </footer>
+
+</body>
+</html>
+

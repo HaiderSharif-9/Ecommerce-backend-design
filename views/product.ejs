@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Store | Online Shopping</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background-color: #f7f8f9; color: #1c1c1c; }
+
+        /* HEADER / NAVBAR */
+        .header { background: white; padding: 15px 5%; border-bottom: 1px solid #e3e8ee; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .brand { color: #0d6efd; font-size: 24px; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .nav-icons { display: flex; gap: 20px; }
+        .nav-icons div { text-align: center; color: #8b96a5; cursor: pointer; font-size: 12px; }
+        .nav-icons i { font-size: 20px; display: block; margin-bottom: 5px; }
+
+        /* SEARCH BAR AREA */
+        .sub-nav { background: white; border-bottom: 1px solid #e3e8ee; padding: 10px 5%; display: flex; gap: 20px; font-size: 14px; }
+        .search-area { padding: 20px 5%; text-align: center; }
+        .search-input { width: 50%; padding: 12px; border: 2px solid #0d6efd; border-radius: 6px 0 0 6px; outline: none; }
+        .search-btn { padding: 12px 25px; background: #0d6efd; color: white; border: none; border-radius: 0 6px 6px 0; cursor: pointer; font-weight: bold; }
+
+        /* MAIN CONTENT (Sidebar + Products) */
+        .main-container { display: flex; padding: 20px 5%; gap: 20px; }
+        
+        /* SIDEBAR (Filters) */
+        .sidebar { width: 250px; flex-shrink: 0; display: none; } /* Mobile pe hide */
+        @media (min-width: 992px) { .sidebar { display: block; } }
+        .filter-group { border-top: 1px solid #e3e8ee; padding: 15px 0; }
+        .filter-title { font-weight: bold; margin-bottom: 10px; display: block; }
+        .filter-item { display: block; margin-bottom: 8px; color: #505050; font-size: 14px; cursor: pointer; }
+
+        /* PRODUCT CARDS (LIST VIEW) */
+        .products-grid { flex-grow: 1; display: flex; flex-direction: column; gap: 15px; }
+        .card { background: white; border: 1px solid #e3e8ee; border-radius: 6px; display: flex; padding: 15px; transition: 0.3s; }
+        .card:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .card-img { width: 180px; height: 180px; object-fit: contain; margin-right: 20px; border-radius: 4px; }
+        .card-body { flex-grow: 1; position: relative; }
+        .card-title { font-size: 18px; margin-bottom: 10px; color: #1c1c1c; font-weight: 500; }
+        .card-price { font-size: 20px; font-weight: bold; margin-bottom: 5px; }
+        .old-price { color: #8b96a5; text-decoration: line-through; font-size: 14px; }
+        .rating { color: #ff9017; font-size: 14px; margin-bottom: 15px; }
+        .btn-details { padding: 8px 15px; border: 1px solid #e3e8ee; color: #0d6efd; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; }
+        
+        /* FOOTER */
+        .footer { background: white; border-top: 1px solid #e3e8ee; padding: 40px 5%; margin-top: 50px; }
+        .footer-cols { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+        .footer-col h4 { margin-bottom: 15px; }
+        .footer-col p, .footer-col a { color: #8b96a5; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px; }
+        .copyright { text-align: center; border-top: 1px solid #e3e8ee; padding: 20px; color: #8b96a5; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="/products" class="brand">
+            <i class="fa-solid fa-shopping-bag" style="color: #0d6efd;"></i> Brand
+        </a>
+        <div class="nav-icons">
+            <div><i class="fa-solid fa-user"></i> Profile</div>
+            <div><i class="fa-solid fa-comment"></i> Message</div>
+            <div><i class="fa-solid fa-heart"></i> Orders</div>
+            <a href="/logout" style="text-decoration: none;">
+                <div style="color: #ff6b6b;"><i class="fa-solid fa-right-from-bracket"></i> Logout</div>
+            </a>
+        </div>
+    </header>
+
+    <div class="search-area">
+        <form action="/products" method="GET">
+            <input type="text" name="search" class="search-input" placeholder="Search product...">
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+    </div>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="filter-group">
+                <span class="filter-title">Category</span>
+                <span class="filter-item">Automobiles</span>
+                <span class="filter-item">Electronics</span>
+                <span class="filter-item">Home Interiors</span>
+            </div>
+            <div class="filter-group">
+                <span class="filter-title">Brands</span>
+                <label class="filter-item"><input type="checkbox" checked> Samsung</label>
+                <label class="filter-item"><input type="checkbox" checked> Apple</label>
+            </div>
+        </aside>
+
+        <div class="products-grid">
+            <% if (products.length > 0) { %>
+                <% products.forEach(product => { %>
+                    <div class="card">
+                        <img src="<%= product.image %>" class="card-img" alt="Product">
+                        <div class="card-body">
+                            <h2 class="card-title"><%= product.name %></h2>
+                            <div class="card-price">$<%= product.price %> <span class="old-price">$<%= (product.price * 1.2).toFixed(2) %></span></div>
+                            <div class="rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i> 7.5
+                            </div>
+                            <a href="/products/<%= product._id %>" class="btn-details">View Details</a>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p style="text-align:center;">No products found in gallery.</p>
+            <% } %>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-cols">
+            <div class="footer-col" style="width: 250px;">
+                <h2 style="color: #0d6efd; margin-bottom: 15px;">Brand</h2>
+                <p>Best information about the company goes here but now lorem ipsum is simply dummy text.</p>
+            </div>
+            <div class="footer-col">
+                <h4>About</h4>
+                <a href="#">About Us</a>
+                <a href="#">Find store</a>
+                <a href="#">Categories</a>
+            </div>
+            <div class="footer-col">
+                <h4>Information</h4>
+                <a href="#">Help Center</a>
+                <a href="#">Money Refund</a>
+                <a href="#">Shipping</a>
+            </div>
+            <div class="footer-col">
+                <h4>For users</h4>
+                <a href="/login">Login</a>
+                <a href="/signup">Register</a>
+                <a href="#">Settings</a>
+            </div>
+        </div>
+    </footer>
+    <div class="copyright">
+        &copy; 2026 MyStore Project | Developed by <b>Haider</b>
+    </div>
+
+</body>
+</html>
+
