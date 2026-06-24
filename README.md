@@ -7,7 +7,7 @@
 
 ## ✨ Features
 * **User Authentication:** Secure Login and Signup system using JWT.
-* **Admin Panel:** Protected by a secret password (`hadi09`).
+* **Admin Panel:** Protected by a secret password.
 * **Cloud Database:** Integrated with **MongoDB Atlas**.
 * **Modern UI:** Responsive design using EJS and CSS.
 
